@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musik Referat von Erik Fähnlein</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            font-weight: 300;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .video-card h3 {
+            color: white;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .video-wrapper {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #000;
+        }
+
+        .video-controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            outline: none;
+            border-radius: 2px;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .volume-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            min-width: 60px;
+        }
+
+        .time-controls {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .time-input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .time-input-group label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+        }
+
+        .time-input {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            width: 80px;
+            text-align: center;
+        }
+
+        .time-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .time-input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .apply-time-btn {
+            background: rgba(76, 175, 80, 0.7);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .apply-time-btn:hover {
+            background: rgba(76, 175, 80, 0.9);
+        }
+
+        .time-display {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .video-mode-selector {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .radio-group input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4CAF50;
+        }
+
+        .radio-group label {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .time-controls.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .instructions h2 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .instructions ol {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .instructions code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Musik Referat</h1>
+            <p>Erik Fähnlein - Klasse 6b</p>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-card">
+                <h3>The Rolling Stones (Keith Richards): Wild Horses</h3>
+                <div class="video-wrapper">
+                    <video controls preload="metadata" id="video1">
+                        <source src="videos/video1.webm" type="video/webm">
+                        Ihr Browser unterstützt das Video-Element nicht.
+                    </video>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playPause('video1')">Play/Pause</button>
+                    <button class="control-btn" onclick="toggleMute('video1')">Stumm</button>
+                </div>
+                <div class="volume-control">
+                    <span class="volume-label">Lautstärke:</span>
+                    <input type="range" class="volume-slider" min="0" max="1" step="1" value="1" 
+                           onchange="setVolume('video1', this.value)">
+                </div>
+                
+                <div class="video-mode-selector">
+                    <div class="radio-group">
+                        <input type="radio" id="full1" name="mode1" value="full" checked 
+                               onchange="toggleVideoMode('video1', 'full')">
+                        <label for="full1">Komplettes Video</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="range1" name="mode1" value="range" 
+                               onchange="toggleVideoMode('video1', 'range')">
+                        <label for="range1">Zeitbereich</label>
+                    </div>
+                </div>
+                
+                <div class="time-controls disabled" id="timeControls1">
+                    <div class="time-input-group">
+                        <label>Start (Sekunden)</label>
+                        <input type="number" class="time-input" id="start1" placeholder="0" min="0" step="1" value="0">
+                    </div>
+                    <div class="time-input-group">
+                        <label>Ende (Sekunden)</label>
+                        <input type="number" class="time-input" id="end1" placeholder="Auto" min="0" step="1" value="40">
+                    </div>
+                </div>
+                <button class="apply-time-btn" id="applyBtn1" onclick="applyTimeRange('video1', 'start1', 'end1')" 
+                        style="display: none;">
+                    Zeitbereich anwenden
+                </button>
+                <div class="time-display" id="display1">Aktuelle Zeit: 0s / Dauer: --</div>
+            </div>
+
+            <div class="video-card">
+                <h3>Eric Clapton - Nobody knows you (live)</h3>
+                <div class="video-wrapper">
+                    <video controls preload="metadata" id="video2">
+                        <source src="videos/video2.webm" type="video/webm">
+                        Ihr Browser unterstützt das Video-Element nicht.
+                    </video>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playPause('video2')">Play/Pause</button>
+                    <button class="control-btn" onclick="toggleMute('video2')">Stumm</button>
+                </div>
+                <div class="volume-control">
+                    <span class="volume-label">Lautstärke:</span>
+                    <input type="range" class="volume-slider" min="0" max="1" step="1" value="1" 
+                           onchange="setVolume('video2', this.value)">
+                </div>
+                
+                <div class="video-mode-selector">
+                    <div class="radio-group">
+                        <input type="radio" id="full2" name="mode2" value="full" checked 
+                               onchange="toggleVideoMode('video2', 'full')">
+                        <label for="full2">Komplettes Video</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="range2" name="mode2" value="range" 
+                               onchange="toggleVideoMode('video2', 'range')">
+                        <label for="range2">Zeitbereich</label>
+                    </div>
+                </div>
+                
+                <div class="time-controls disabled" id="timeControls2">
+                    <div class="time-input-group">
+                        <label>Start (Sekunden)</label>
+                        <input type="number" class="time-input" id="start2" placeholder="0" min="0" step="1">
+                    </div>
+                    <div class="time-input-group">
+                        <label>Ende (Sekunden)</label>
+                        <input type="number" class="time-input" id="end2" placeholder="Auto" min="0" step="1">
+                    </div>
+                </div>
+                <button class="apply-time-btn" id="applyBtn2" onclick="applyTimeRange('video2', 'start2', 'end2')" 
+                        style="display: none;">
+                    Zeitbereich anwenden
+                </button>
+                <div class="time-display" id="display2">Aktuelle Zeit: 0s / Dauer: --</div>
+            </div>
+
+            <div class="video-card">
+                <h3>Jimi Hendrix</h3>
+                <div class="video-wrapper">
+                    <video controls preload="metadata" id="video3">
+                        <source src="videos/video3.webm" type="video/webm">
+                        Ihr Browser unterstützt das Video-Element nicht.
+                    </video>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playPause('video3')">Play/Pause</button>
+                    <button class="control-btn" onclick="toggleMute('video3')">Stumm</button>
+                </div>
+                <div class="volume-control">
+                    <span class="volume-label">Lautstärke:</span>
+                    <input type="range" class="volume-slider" min="0" max="1" step="1" value="1" 
+                           onchange="setVolume('video3', this.value)">
+                </div>
+                
+                <div class="video-mode-selector">
+                    <div class="radio-group">
+                        <input type="radio" id="full3" name="mode3" value="full" checked 
+                               onchange="toggleVideoMode('video3', 'full')">
+                        <label for="full3">Komplettes Video</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="range3" name="mode3" value="range" 
+                               onchange="toggleVideoMode('video3', 'range')">
+                        <label for="range3">Zeitbereich</label>
+                    </div>
+                </div>
+                
+                <div class="time-controls disabled" id="timeControls3">
+                    <div class="time-input-group">
+                        <label>Start (Sekunden)</label>
+                        <input type="number" class="time-input" id="start3" placeholder="0" min="0" step="1">
+                    </div>
+                    <div class="time-input-group">
+                        <label>Ende (Sekunden)</label>
+                        <input type="number" class="time-input" id="end3" placeholder="Auto" min="0" step="1">
+                    </div>
+                </div>
+                <button class="apply-time-btn" id="applyBtn3" onclick="applyTimeRange('video3', 'start3', 'end3')" 
+                        style="display: none;">
+                    Zeitbereich anwenden
+                </button>
+                <div class="time-display" id="display3">Aktuelle Zeit: 0s / Dauer: --</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Objekt zum Speichern der Zeitbereiche für jedes Video
+        const videoTimeRanges = {};
+        // Objekt zum Speichern der Modi für jedes Video
+        const videoModes = {
+            'video1': 'full',
+            'video2': 'full', 
+            'video3': 'full'
+        };
+
+        function playPause(videoId) {
+            const video = document.getElementById(videoId);
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+
+        function toggleMute(videoId) {
+            const video = document.getElementById(videoId);
+            video.muted = !video.muted;
+        }
+
+        function setVolume(videoId, volume) {
+            const video = document.getElementById(videoId);
+            video.volume = volume;
+        }
+
+        function toggleVideoMode(videoId, mode) {
+            const videoNumber = videoId.replace('video', '');
+            const timeControls = document.getElementById(`timeControls${videoNumber}`);
+            const applyBtn = document.getElementById(`applyBtn${videoNumber}`);
+            
+            videoModes[videoId] = mode;
+            
+            if (mode === 'range') {
+                timeControls.classList.remove('disabled');
+                applyBtn.style.display = 'block';
+            } else {
+                timeControls.classList.add('disabled');
+                applyBtn.style.display = 'none';
+                // Zeitbereich zurücksetzen bei Wechsel zu "Komplettes Video"
+                clearTimeRange(videoId);
+            }
+        }
+
+        function clearTimeRange(videoId) {
+            // Zeitbereich aus dem Speicher entfernen
+            delete videoTimeRanges[videoId];
+            
+            // Video zurücksetzen - alle Beschränkungen aufheben
+            const video = document.getElementById(videoId);
+            video.currentTime = 0;
+            
+            console.log(`Zeitbereich für ${videoId} deaktiviert - komplettes Video verfügbar`);
+        }
+
+        function applyTimeRange(videoId, startInputId, endInputId) {
+            const video = document.getElementById(videoId);
+            const startInput = document.getElementById(startInputId);
+            const endInput = document.getElementById(endInputId);
+            
+            const startTime = parseFloat(startInput.value) || 0;
+            const endTime = parseFloat(endInput.value) || video.duration || 0;
+            
+            // Validierung
+            if (startTime < 0) {
+                alert('Startzeit muss >= 0 sein');
+                return;
+            }
+            
+            if (endTime > 0 && startTime >= endTime) {
+                alert('Startzeit muss kleiner als Endzeit sein');
+                return;
+            }
+            
+            if (video.duration && startTime > video.duration) {
+                alert(`Startzeit darf nicht größer als die Videodauer (${formatTime(video.duration)}) sein`);
+                return;
+            }
+            
+            if (endTime > 0 && video.duration && endTime > video.duration) {
+                alert(`Endzeit darf nicht größer als die Videodauer (${formatTime(video.duration)}) sein`);
+                return;
+            }
+            
+            // Zeitbereich speichern
+            videoTimeRanges[videoId] = {
+                start: startTime,
+                end: endTime > 0 ? endTime : video.duration
+            };
+            
+            // Video zur Startzeit springen
+            video.currentTime = startTime;
+            
+            console.log(`Zeitbereich für ${videoId} angewendet: ${startTime}s - ${endTime || 'Ende'}s`);
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '--';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimeDisplay(videoId) {
+            const video = document.getElementById(videoId);
+            const displayId = videoId.replace('video', 'display');
+            const display = document.getElementById(displayId);
+            
+            if (display) {
+                const current = formatTime(video.currentTime);
+                const duration = formatTime(video.duration);
+                const mode = videoModes[videoId];
+                const modeText = mode === 'range' ? ' (Zeitbereich)' : ' (Komplett)';
+                display.textContent = `Aktuelle Zeit: ${current} / Dauer: ${duration}${modeText}`;
+            }
+        }
+
+        // Auto-play prevention und bessere UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                // Event Listener für Zeitanzeige
+                video.addEventListener('timeupdate', function() {
+                    updateTimeDisplay(this.id);
+                    
+                    // Nur Zeitbereich-Kontrolle wenn Modus aktiv ist
+                    if (videoModes[this.id] === 'range') {
+                        const timeRange = videoTimeRanges[this.id];
+                        if (timeRange && timeRange.end > 0 && this.currentTime >= timeRange.end) {
+                            this.pause();
+                            this.currentTime = timeRange.start; // Zurück zur Startzeit
+                        }
+                    }
+                });
+                
+                video.addEventListener('loadedmetadata', function() {
+                    updateTimeDisplay(this.id);
+                });
+                
+                video.addEventListener('loadstart', function() {
+                    console.log('Video lädt:', this.src);
+                });
+                
+                video.addEventListener('error', function() {
+                    console.error('Fehler beim Laden des Videos:', this.src);
+                    this.parentElement.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">Video konnte nicht geladen werden</p>';
+                });
+
+                // Verhindern, dass das Video über den gesetzten Endpunkt hinaus abgespielt wird
+                // Nur bei Zeitbereich-Modus aktiv
+                video.addEventListener('seeking', function() {
+                    if (videoModes[this.id] === 'range') {
+                        const timeRange = videoTimeRanges[this.id];
+                        if (timeRange) {
+                            if (this.currentTime < timeRange.start) {
+                                this.currentTime = timeRange.start;
+                            } else if (timeRange.end > 0 && this.currentTime > timeRange.end) {
+                                this.currentTime = timeRange.end;
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
