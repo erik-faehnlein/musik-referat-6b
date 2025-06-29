@@ -303,7 +303,7 @@
                 
                 <div class="video-mode-selector">
                     <div class="radio-group">
-                        <input type="radio" id="full1" name="mode1" value="full" checked 
+                        <input type="radio" id="full1" name="mode1" value="range" checked 
                                onchange="toggleVideoMode('video1', 'full')">
                         <label for="full1">Komplettes Video</label>
                     </div>
@@ -351,7 +351,7 @@
                 
                 <div class="video-mode-selector">
                     <div class="radio-group">
-                        <input type="radio" id="full2" name="mode2" value="full" checked 
+                        <input type="radio" id="full2" name="mode2" value="range" checked 
                                onchange="toggleVideoMode('video2', 'full')">
                         <label for="full2">Komplettes Video</label>
                     </div>
@@ -365,11 +365,11 @@
                 <div class="time-controls disabled" id="timeControls2">
                     <div class="time-input-group">
                         <label>Start (Sekunden)</label>
-                        <input type="number" class="time-input" id="start2" placeholder="0" min="0" step="1">
+                        <input type="number" class="time-input" id="start2" placeholder="0" min="0" value="30" step="1">
                     </div>
                     <div class="time-input-group">
                         <label>Ende (Sekunden)</label>
-                        <input type="number" class="time-input" id="end2" placeholder="Auto" min="0" step="1">
+                        <input type="number" class="time-input" id="end2" placeholder="Auto" min="0" value="60" step="1">
                     </div>
                 </div>
                 <button class="apply-time-btn" id="applyBtn2" onclick="applyTimeRange('video2', 'start2', 'end2')" 
@@ -399,7 +399,7 @@
                 
                 <div class="video-mode-selector">
                     <div class="radio-group">
-                        <input type="radio" id="full3" name="mode3" value="full" checked 
+                        <input type="radio" id="full3" name="mode3" value="range" checked 
                                onchange="toggleVideoMode('video3', 'full')">
                         <label for="full3">Komplettes Video</label>
                     </div>
@@ -413,11 +413,11 @@
                 <div class="time-controls disabled" id="timeControls3">
                     <div class="time-input-group">
                         <label>Start (Sekunden)</label>
-                        <input type="number" class="time-input" id="start3" placeholder="0" min="0" step="1">
+                        <input type="number" class="time-input" id="start3" placeholder="0" min="0" value="0" step="1">
                     </div>
                     <div class="time-input-group">
                         <label>Ende (Sekunden)</label>
-                        <input type="number" class="time-input" id="end3" placeholder="Auto" min="0" step="1">
+                        <input type="number" class="time-input" id="end3" placeholder="Auto" min="0" value="35" step="1">
                     </div>
                 </div>
                 <button class="apply-time-btn" id="applyBtn3" onclick="applyTimeRange('video3', 'start3', 'end3')" 
